@@ -1,7 +1,10 @@
-require_relative '../validates_type'
+require_relative './spec_helper'
 
 describe 'ValidatesType' do
+
   describe 'String' do
+    subject { TypeValidationTestClass.set_accessor_and_validator(value, :string) }
+
     context 'field value is a String' do
       specify do
         expect(subject).to be_valid
