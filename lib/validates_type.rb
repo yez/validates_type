@@ -4,19 +4,23 @@ require 'active_model'
 module ActiveModel
   module Validations
     class TypeValidator < ActiveModel::EachValidator
-
-      def initialize(options)
-        super(options)
+      def validate_each(record, attribute, value)
+        klass = symbol_class(options[:type])
+        unless value.is_a?(klass)
+          record.errors.add(attribute, "is expected to be a #{ klass } and is not.")
+        end
       end
 
-      def validate_each(record, attribute, value)
-        super
+      private
+
+      def symbol_class(symbol)
+        @symbol_class ||= symbol.to_s.camelize.constantize
       end
     end
 
     module ClassMethods
-      def validates_type(*attr_names)
-        validates_with TypeValidator, _merge_attributes(attr_names)
+      def validates_type(attribute_name, attribute_type)
+        validates_with TypeValidator, { attributes: [attribute_name], type: attribute_type }
       end
     end
   end
