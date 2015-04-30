@@ -1,11 +1,11 @@
 require_relative './spec_helper'
 
 describe 'ValidatesType' do
-  before do
-    subject.attribute = value
-  end
-
   context 'supported types' do
+    before do
+      subject.attribute = value
+    end
+
     describe 'String' do
 
       subject { TypeValidationTestClass.set_accessor_and_validator(:string) }
@@ -188,16 +188,26 @@ describe 'ValidatesType' do
         end
       end
     end
+
+    context 'passing in a custom message' do
+      subject { TypeValidationTestClass.set_accessor_and_validator(:string, message: 'is not a String!') }
+
+      context 'when validation fails' do
+        let(:value) { 1 }
+
+        specify do
+          subject.validate
+          expect(subject.errors.messages[:attribute][0]).to match(/is not a String!/)
+        end
+      end
+    end
   end
 
   context 'unsupported types' do
     describe 'Foo' do
-      let(:value) { nil }
-
-      subject { TypeValidationTestClass.set_accessor_and_validator(:foo) }
-
       specify do
         expect do
+          subject = TypeValidationTestClass.set_accessor_and_validator(:foo)
           subject.valid?
         end.to raise_error(
           ActiveModel::Validations::UnsupportedType,

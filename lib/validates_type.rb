@@ -4,10 +4,23 @@ require 'active_model'
 module ActiveModel
   module Validations
     class TypeValidator < ActiveModel::EachValidator
+      # Set default message for failure here
+      #
+      # @initialize
+      #   param: options <Hash> - options hash of how to validate this attribute
+      #                           including custom messaging due to failures, specifying
+      #                           the type of the attribute to validate against, etc.
+      def initialize(options)
+        merged_options = {
+          message: "is expected to be a #{ symbol_class(options[:type]) } and is not."
+        }.merge(options)
+
+        super(merged_options)
+      end
+
       def validate_each(record, attribute, value)
-        klass = symbol_class(options[:type])
-        unless value.is_a?(klass)
-          record.errors.add(attribute, "is expected to be a #{ klass } and is not.")
+        unless value.is_a?(symbol_class(options[:type]))
+          record.errors.add(attribute, options[:message])
         end
       end
 
@@ -33,7 +46,7 @@ module ActiveModel
           string: String,
           symbol: Symbol
         }[symbol] || fail(UnsupportedType,
-                          "Unsupported type #{ options[:type].to_s.camelize } given for validates_type.")
+                          "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
       end
     end
 
@@ -62,8 +75,11 @@ module ActiveModel
       # @validates_type
       #   param: attribute_name <Symbol> - name of attribute to validate
       #   param: attribute_type <Symbol> - type of attribute to validate against
-      def validates_type(attribute_name, attribute_type)
-        validates_with TypeValidator, { attributes: [attribute_name], type: attribute_type }
+      #   param: options <Hash>          - other common options to validate methods calls
+      #                                    i.e. message: 'my custom error message'
+      def validates_type(attribute_name, attribute_type, options = {})
+        attributes = [attribute_name, { type: attribute_type }.merge(options)]
+        validates_with TypeValidator, _merge_attributes(attributes)
       end
     end
   end
