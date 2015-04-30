@@ -1,10 +1,12 @@
 ## validates_type
 
-### Rails type validating for fields
+### Rails type validation
 
 #### Purpose
 
 Most Rails applications will have types coerced by their ORM connection adapters (like the `pg` gem or `mysql2`). However, this only useful for applications with very well defined schemas. If your application has a legacy storage layer that you can no longer modify or a lot of `store_accessor` columns, this solution is a nice middle ground to ensure your data is robust.
+
+This also prevents your data from being coerced into values that you did not intend.
 
 #### Usage
 
