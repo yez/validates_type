@@ -9,18 +9,35 @@ module ActiveModel
         unless value.is_a?(klass)
           record.errors.add(attribute, "is expected to be a #{ klass } and is not.")
         end
-
-      rescue NameError
-        raise UnsupportedType, "Unsupported type #{ options[:type].to_s.camelize } given for validates_type."
       end
 
       private
 
+      # Helper method to convert a symbol into a class constant
+      #
+      # ex:
+      #  symbol_class(:string)  -> String
+      #  symbol_class(:boolean) -> Boolean
+      #  symbol_class(:hash)    -> Hash
+      #
+      # @symbol_class
+      #   param: symbol <Symbol> - symbole to turn into a classconstant
+      #   return: class constant of supported types or raises UnsupportedType
       def symbol_class(symbol)
-        @symbol_class ||= symbol.to_s.camelize.constantize
+        @symbol_class ||= {
+          array: Array,
+          boolean: Boolean,
+          float: Float,
+          hash: Hash,
+          integer: Integer,
+          string: String,
+          symbol: Symbol
+        }[symbol] || fail(UnsupportedType,
+                          "Unsupported type #{ options[:type].to_s.camelize } given for validates_type.")
       end
     end
 
+    # Error class to raise if unsupported value given to validates_url
     class UnsupportedType < StandardError; end
 
     module ClassMethods
