@@ -1,5 +1,7 @@
 ## validates_type
 
+![Build Status](https://travis-ci.org/yez/validates_type.svg?branch=master)
+
 ### Rails type validation
 
 #### Purpose
