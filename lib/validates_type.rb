@@ -19,7 +19,9 @@ module ActiveModel
       end
 
       def validate_each(record, attribute, value)
-        unless value.is_a?(symbol_class(options[:type]))
+        before_type_cast = record.try(:"#{ attribute }_before_type_cast")
+        expected_type    = symbol_class(options[:type])
+        unless value.is_a?(expected_type) && (!before_type_cast || before_type_cast.is_a?(expected_type))
           record.errors.add(attribute, options[:message])
         end
       end
