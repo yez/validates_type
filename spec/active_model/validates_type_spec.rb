@@ -1,4 +1,4 @@
-require_relative './spec_helper'
+require_relative '../spec_helper'
 
 describe 'ValidatesType' do
   context 'supported types' do
@@ -8,7 +8,7 @@ describe 'ValidatesType' do
 
     describe 'String' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:string) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:string) }
 
       context 'field value is a String' do
         let(:value) { 'some string' }
@@ -34,7 +34,7 @@ describe 'ValidatesType' do
 
     describe 'Integer' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:integer) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:integer) }
 
       context 'field value is an Integer' do
         let(:value) { 20 }
@@ -61,7 +61,7 @@ describe 'ValidatesType' do
 
     describe 'Float' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:float) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:float) }
 
       context 'field value is a Float' do
         let(:value) { 1.2 }
@@ -87,7 +87,7 @@ describe 'ValidatesType' do
 
     describe 'Boolean' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:boolean) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:boolean) }
 
       context 'field value is a Boolean' do
         let(:value) { true }
@@ -113,7 +113,7 @@ describe 'ValidatesType' do
 
     describe 'Hash' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:hash) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:hash) }
 
       context 'field value is a Hash' do
         let(:value) { {} }
@@ -139,7 +139,7 @@ describe 'ValidatesType' do
 
     describe 'Array' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:array) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:array) }
 
       context 'field value is an Array' do
         let(:value) { [] }
@@ -165,7 +165,7 @@ describe 'ValidatesType' do
 
     describe 'Symbol' do
 
-      subject { TypeValidationTestClass.set_accessor_and_validator(:symbol) }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:symbol) }
 
       context 'field value is a Symbol' do
         let(:value) { :foo }
@@ -190,7 +190,7 @@ describe 'ValidatesType' do
     end
 
     context 'passing in a custom message' do
-      subject { TypeValidationTestClass.set_accessor_and_validator(:string, message: 'is not a String!') }
+      subject { ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:string, message: 'is not a String!') }
 
       context 'when validation fails' do
         let(:value) { 1 }
@@ -207,7 +207,7 @@ describe 'ValidatesType' do
     describe 'Foo' do
       specify do
         expect do
-          subject = TypeValidationTestClass.set_accessor_and_validator(:foo)
+          subject = ActiveModel::TypeValidationTestClass.set_accessor_and_validator(:foo)
           subject.valid?
         end.to raise_error(
           ActiveModel::Validations::UnsupportedType,
