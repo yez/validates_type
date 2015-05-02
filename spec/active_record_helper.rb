@@ -3,6 +3,7 @@ ActiveRecord::Base.establish_connection(
     "database"  => ":memory:"
 )
 
+ActiveRecord::Migration.verbose = false
 ActiveRecord::Schema.define do
   create_table :type_validation_tests do |t|
     t.string :test_attribute
