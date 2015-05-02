@@ -18,10 +18,18 @@ module ActiveModel
         super(merged_options)
       end
 
+      # Validate that the value is the type we expect
+      #
+      # @validate_each
+      #   param: record <Object>    - subject containing attribute to validate
+      #   param: attribute <Symbol> - name of attribute to validate
+      #   param: value <Variable>   - value of attribute to validate
+      #   return: nil
       def validate_each(record, attribute, value)
-        before_type_cast = record.try(:"#{ attribute }_before_type_cast")
-        expected_type    = symbol_class(options[:type])
-        unless value.is_a?(expected_type) && (!before_type_cast || before_type_cast.is_a?(expected_type))
+        value_to_test = type_before_coercion(record, attribute, value)
+        expected_type = symbol_class(options[:type])
+
+        unless value_to_test.is_a?(expected_type)
           record.errors.add(attribute, options[:message])
         end
       end
@@ -36,19 +44,30 @@ module ActiveModel
       #  symbol_class(:hash)    -> Hash
       #
       # @symbol_class
-      #   param: symbol <Symbol> - symbole to turn into a classconstant
+      #   param: symbol <Symbol> - symbol to turn into a classconstant
       #   return: class constant of supported types or raises UnsupportedType
       def symbol_class(symbol)
         @symbol_class ||= {
-          array: Array,
+          array:   Array,
           boolean: Boolean,
-          float: Float,
-          hash: Hash,
+          float:   Float,
+          hash:    Hash,
           integer: Integer,
-          string: String,
-          symbol: Symbol
+          string:  String,
+          symbol:  Symbol,
         }[symbol] || fail(UnsupportedType,
                           "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
+      end
+
+      # Helper method to circumvent active record's coercion
+      #
+      # @type_before_coercion
+      #   param: record <Object> - subject of validation
+      #   param: value <Variable> - current value of attribute
+      #   return: the value of the attribute before active record's coercion
+      #           or the current value
+      def type_before_coercion(record, attribute, value)
+        record.try(:"#{ attribute }_before_type_cast") || value
       end
     end
 
