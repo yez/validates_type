@@ -12,20 +12,50 @@ This also prevents your data from being coerced into values that you did not int
 
 #### Usage
 
+##### With ActiveRecord
+
 ```ruby
 class Foo < ActiveRecord::Base
 
   # validate that attribute :bar is a String
   validates_type :bar, :string
 
-  # validate that attribute :baz is an Integer
-  validates_type :baz, :integer
+  # validate that attribute :baz is an Integer with a custom error message
+  validates_type :baz, :integer, message: 'Baz must be an Integer'
 
-  # validate that attribute :qux is an Array
-  validates_type :qux, :array
+  # validate that attribute :qux is an Array, allow blank
+  validates_type :qux, :array, allow_blank: true
 
   # validate that attribute :whatever is a Boolean
   validates_type :whatever, :boolean
+end
+```
+
+##### With ActiveModel
+
+```ruby
+class Bar
+  include ActiveModel::Validations
+
+  attr_accessor :foo, :qux
+
+  validates_type :foo, :string
+
+  # Custom error message support
+  validates_type :qux, :boolean, message: 'Attribute qux must be a boolean!'
+end
+```
+
+##### With Shortcut Syntax
+
+```ruby
+class Banana < ActiveRecord::Base
+
+  # The banana's peel attribute must be a string
+  validates :peel, type: { type: :string }
+
+  # Custom error message for ripeness of banana
+  validates :ripe, type: { type: :boolean, message: 'Only ripe bananas allowed' }
 end
 ```
 
