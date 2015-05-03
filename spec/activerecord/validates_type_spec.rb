@@ -5,6 +5,7 @@ describe 'ValidatesType' do
     before do
       subject.test_attribute = value
     end
+
     context 'validates_type :attribute, :type' do
       describe 'String' do
 

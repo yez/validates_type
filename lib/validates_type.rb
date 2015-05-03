@@ -29,8 +29,16 @@ module ActiveModel
         value_to_test = type_before_coercion(record, attribute, value)
         expected_type = symbol_class(options[:type])
 
-        unless value_to_test.is_a?(expected_type)
-          record.errors.add(attribute, options[:message])
+        if !value_to_test.is_a?(expected_type)
+          if options[:strict].present?
+            if options[:strict].is_a?(Boolean)
+              raise ActiveModel::StrictValidationFailed, options[:message]
+            else
+              raise options[:strict]
+            end
+          else
+            record.errors.add(attribute, options[:message])
+          end
         end
       end
 
