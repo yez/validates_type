@@ -260,6 +260,60 @@ describe 'ValidatesType' do
           end
         end
       end
+
+      context 'multiple custom modifiers' do
+        before do
+          subject.attribute = value
+        end
+
+        describe 'message: with if:' do
+          subject do
+            ActiveModel::TypeValidationTestClass.send(validate_version,
+              :string, message: 'This is bad!', if: condition)
+          end
+
+          context 'condition is true' do
+            let(:condition) { -> { true } }
+
+            context 'field value is the expected type' do
+              let(:value) { 'I am a string' }
+
+              specify do
+                expect(subject).to be_valid
+              end
+            end
+
+            context 'field value is not the expected type' do
+              let(:value) { -1 }
+
+              specify do
+                expect(subject).to_not be_valid
+                expect(subject.errors.messages[:attribute][0]).to match(/This is bad!/)
+              end
+            end
+          end
+
+          context 'condition is false' do
+            let(:condition) { -> { false } }
+
+            context 'field value is the expected type' do
+              let(:value) { 'I am a string' }
+
+              specify do
+                expect(subject).to be_valid
+              end
+            end
+
+            context 'field value is not the expected type' do
+              let(:value) { -1 }
+
+              specify do
+                expect(subject).to be_valid
+              end
+            end
+          end
+        end
+      end
     end
   end
 end
