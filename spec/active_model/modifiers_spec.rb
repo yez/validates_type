@@ -241,6 +241,10 @@ describe 'ValidatesType' do
               :string, on: :some_test_method)
           end
 
+          before do
+            allow(subject).to receive(:some_test_method) { subject.validate }
+          end
+
           context 'on: criteria is met' do
             specify do
               expect(subject).to receive(:validate)
