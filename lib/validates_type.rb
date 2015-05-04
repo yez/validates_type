@@ -10,6 +10,7 @@ module ActiveModel
       #   param: options <Hash> - options hash of how to validate this attribute
       #                           including custom messaging due to failures, specifying
       #                           the type of the attribute to validate against, etc.
+      #   return: result of ActiveModel::Validations::EachValidator initialize
       def initialize(options)
         merged_options = {
           message: "is expected to be a #{ symbol_class(options[:type]) } and is not."
@@ -127,6 +128,7 @@ module ActiveModel
       #   param: attribute_type <Symbol> - type of attribute to validate against
       #   param: options <Hash>          - other common options to validate methods calls
       #                                    i.e. message: 'my custom error message'
+      #   return: nil
       def validates_type(attribute_name, attribute_type, options = {})
         attributes = [attribute_name, { type: attribute_type }.merge(options)]
         validates_with TypeValidator, _merge_attributes(attributes)
