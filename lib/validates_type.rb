@@ -29,20 +29,41 @@ module ActiveModel
         value_to_test = type_before_coercion(record, attribute, value)
         expected_type = symbol_class(options[:type])
 
-        if !value_to_test.is_a?(expected_type)
-          if options[:strict].present?
-            if options[:strict].is_a?(Boolean)
-              raise ActiveModel::StrictValidationFailed, options[:message]
-            else
-              raise options[:strict]
-            end
-          else
-            record.errors.add(attribute, options[:message])
-          end
-        end
+        add_errors_or_raise(options, record, attribute) unless value_to_test.is_a?(expected_type)
       end
 
       private
+
+      # Helper method to either add messages to the errors object
+      # or raise an exception in :strict mode
+      #
+      # @add_errors_or_raise
+      #   param: options <Hash>     - options hash with strict flag or class
+      #   param: record <Object>    - subject containg attribute to validate
+      #   param: attribute <Symbol> - name of attribute under validation
+      #   return: nil
+      def add_errors_or_raise(options, record, attribute)
+        error = options_error(options[:strict])
+
+        raise error unless error.nil?
+
+        record.errors.add(attribute, options[:message])
+      end
+
+      # Helper method to return the base expected error:
+      # ActiveModel::StrictValidationFailed, a custom error, or nil
+      #
+      # @options_error
+      #   param: strict_error <true or subclass of Exception> - either the flag
+      #           to raise an error or the actual error to raise
+      #   return: custom error, ActiveModel::StrictValidationFailed, or nil
+      def options_error(strict_error)
+        if strict_error == true
+          ActiveModel::StrictValidationFailed
+        elsif strict_error.try(:ancestors).try(:include?, Exception)
+          strict_error
+        end
+      end
 
       # Helper method to convert a symbol into a class constant
       #
