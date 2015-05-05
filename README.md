@@ -46,7 +46,7 @@ class Bar
 end
 ```
 
-##### With Shortcut Syntax
+##### With shortcut syntax
 
 ```ruby
 class Banana < ActiveRecord::Base
@@ -56,6 +56,23 @@ class Banana < ActiveRecord::Base
 
   # Custom error message for ripeness of banana
   validates :ripe, type: { type: :boolean, message: 'Only ripe bananas allowed' }
+end
+```
+
+##### With multiple modifiers
+
+```ruby
+class Foo < ActiveRecord::Base
+  # validate that attribute :baz is an Integer with a custom error message
+  #   only if :conditional_method evaluates to true
+  validates_type :baz, :integer, message: 'Baz must be an Integer', if: :conditional_method
+
+  def conditional_method
+    # some kind of logic that is important to pass
+  end
+
+  # validate that attribute :baz is a Float and is included in a specific array
+  validates_type :foo, :float, in: [1.0, 2.5, 3.0]
 end
 ```
 
