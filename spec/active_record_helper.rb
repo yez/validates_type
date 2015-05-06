@@ -10,6 +10,12 @@ ActiveRecord::Schema.define do
   end
 end
 
+def drop_and_create_column_with_type(column_type)
+  ActiveRecord::Schema.define do
+    change_column :type_validation_tests, :test_attribute, column_type.to_sym
+  end
+end
+
 class TypeValidationTest < ActiveRecord::Base
   def self.set_accessor_and_long_validator(type, options = {})
     self.new.tap do |test_class|
