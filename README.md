@@ -28,6 +28,9 @@ class Foo < ActiveRecord::Base
 
   # validate that attribute :whatever is a Boolean
   validates_type :whatever, :boolean
+
+  # validate that attribute :thing is a Float or nil
+  validates_type :thing, :float, allow_nil: true
 end
 ```
 
