@@ -209,7 +209,7 @@ describe 'ValidatesType' do
           subject = ActiveModel::TypeValidationTestClass.set_accessor_and_long_validator(:foo)
           subject.valid?
         end.to raise_error(
-          ActiveModel::Validations::UnsupportedType,
+          ValidatesType::UnsupportedType,
           "Unsupported type Foo given for validates_type.")
       end
     end

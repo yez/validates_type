@@ -1,6 +1,9 @@
 require 'ruby-boolean'
 require 'active_model'
 
+require_relative '../errors/unsupported_type'
+require_relative './arguments'
+
 module ActiveModel
   module Validations
     class TypeValidator < ActiveModel::EachValidator
@@ -85,7 +88,7 @@ module ActiveModel
           :integer => Integer,
           :string  => String,
           :symbol  => Symbol,
-        }[symbol] || fail(UnsupportedType,
+        }[symbol] || fail(ValidatesType::UnsupportedType,
                           "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
       end
 
@@ -100,9 +103,6 @@ module ActiveModel
         record.try(:"#{ attribute }_before_type_cast") || value
       end
     end
-
-    # Error class to raise if unsupported value given to validates_url
-    class UnsupportedType < StandardError; end
 
     module ClassMethods
       # Validates the type of an attribute with supported types:
@@ -130,8 +130,8 @@ module ActiveModel
       #                                    i.e. message: 'my custom error message'
       #   return: nil
       def validates_type(attribute_name, attribute_type, options = {})
-        attributes = [attribute_name, { :type => attribute_type }.merge(options)]
-        validates_with TypeValidator, _merge_attributes(attributes)
+        args = ValidatesType::Arguments.new(attribute_name, attribute_type, options)
+        validates_with TypeValidator, _merge_attributes(args.to_validation_attributes)
       end
     end
   end
