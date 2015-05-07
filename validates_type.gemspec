@@ -16,13 +16,13 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = s.files.grep(/^spec\//)
 
-  s.add_dependency 'ruby-boolean'
-  s.add_dependency 'activemodel'
+  s.add_dependency 'ruby-boolean', '>= 1.0.0'
+  s.add_dependency 'activemodel', '>= 3.0.0'
 
-  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'bundler', '~> 1.3'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'activerecord'
+  s.add_development_dependency 'activerecord', '>= 3.0.0'
   s.add_development_dependency 'sqlite3'
 end
