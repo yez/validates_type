@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name          = 'validates_type'
   s.version       = ValidatesType::VERSION
   s.summary       = %q{Type validation for ActiveModel/ActiveRecord attributes}
-  s.description   = %q{}
+  s.description   = %q{This library helps validate attributes to specific types in the same way that ActiveModel valiations work. Able to chain additional modifiers to each validation.}
   s.authors       = ['Jake Yesbeck']
   s.email         = 'yesbeckjs@gmail.com'
   s.homepage      = 'http://rubygems.org/gems/validates_type'
@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.files         = `git ls-files`.split("\n")
   s.test_files    = s.files.grep(/^spec\//)
+
+  s.required_ruby_version = '>= 1.8.7'
 
   s.add_dependency 'ruby-boolean', '>= 1.0.0'
   s.add_dependency 'activemodel', '>= 3.0.0'

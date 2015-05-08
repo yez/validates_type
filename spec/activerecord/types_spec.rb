@@ -7,7 +7,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Array' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:string)
+      drop_and_create_column_with_type(:string)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:array) }
 
@@ -48,7 +48,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Boolean' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:boolean)
+      drop_and_create_column_with_type(:boolean)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:boolean) }
 
@@ -89,7 +89,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Float' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:float)
+      drop_and_create_column_with_type(:float)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:float) }
 
@@ -130,7 +130,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Hash' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:string)
+      drop_and_create_column_with_type(:string)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:hash) }
 
@@ -171,7 +171,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Integer' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:integer)
+      drop_and_create_column_with_type(:integer)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:integer) }
 
@@ -212,7 +212,7 @@ describe 'ValidatesType' do
     end
 
     describe 'String' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:string)
+      drop_and_create_column_with_type(:string)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:string) }
 
@@ -252,7 +252,7 @@ describe 'ValidatesType' do
     end
 
     describe 'Symbol' do
-      ->(column_type){ drop_and_create_column_with_type(column_type) }.call(:string)
+      drop_and_create_column_with_type(:string)
 
       subject { TypeValidationTest.set_accessor_and_long_validator(:symbol) }
 
