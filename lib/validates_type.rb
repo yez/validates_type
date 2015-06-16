@@ -62,9 +62,11 @@ module ActiveModel
       #           to raise an error or the actual error to raise
       #   return: custom error, ActiveModel::StrictValidationFailed, or nil
       def options_error(strict_error)
+        return if strict_error.nil?
+
         if strict_error == true
           ActiveModel::StrictValidationFailed
-        elsif strict_error.try(:ancestors).try(:include?, Exception)
+        elsif strict_error.ancestors.include?(Exception)
           strict_error
         end
       end
