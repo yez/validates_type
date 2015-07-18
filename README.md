@@ -31,6 +31,12 @@ class Foo < ActiveRecord::Base
 
   # validate that attribute :thing is a Float or nil
   validates_type :thing, :float, allow_nil: true
+
+  # validate that attribute :when is a Time
+  validates_type :when, :time
+
+  # validate that attribute :birthday is a Date or blank
+  validates_type :birthday, :date, allow_blank: true
 end
 ```
 
@@ -88,3 +94,5 @@ end
 - `:integer`
 - `:string`
 - `:symbol`
+- `:time`
+- `:date`

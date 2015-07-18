@@ -90,6 +90,8 @@ module ActiveModel
           :integer => Integer,
           :string  => String,
           :symbol  => Symbol,
+          :time  => Time,
+          :date  => Date,
         }[symbol] || fail(ValidatesType::UnsupportedType,
                           "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
       end
@@ -115,6 +117,8 @@ module ActiveModel
       #   - :integer
       #   - :string
       #   - :symbol
+      #   - :time
+      #   - :date
       #
       # class Foo
       #   include ActiveModel::Validations

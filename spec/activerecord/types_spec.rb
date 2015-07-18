@@ -290,6 +290,60 @@ describe 'ValidatesType' do
         end
       end
     end
+
+    describe 'Date' do
+      drop_and_create_column_with_type(:string)
+
+      subject { TypeValidationTest.set_accessor_and_long_validator(:date) }
+
+      context 'field value is a Date' do
+        let(:value) { Date.new }
+
+        specify do
+          expect(subject).to be_valid
+        end
+      end
+
+      context 'field value is not a Date' do
+        let(:value) { :foo }
+        specify do
+          expect(subject).to_not be_valid
+        end
+
+        specify do
+          subject.validate
+          expect(subject.errors).to_not be_empty
+          expect(subject.errors.messages[:test_attribute][0]).to match(/is expected to be a Date and is not/)
+        end
+      end
+    end
+
+    describe 'Time' do
+      drop_and_create_column_with_type(:string)
+
+      subject { TypeValidationTest.set_accessor_and_long_validator(:time) }
+
+      context 'field value is a Time' do
+        let(:value) { Time.new }
+
+        specify do
+          expect(subject).to be_valid
+        end
+      end
+
+      context 'field value is not a Time' do
+        let(:value) { 123456 }
+        specify do
+          expect(subject).to_not be_valid
+        end
+
+        specify do
+          subject.validate
+          expect(subject.errors).to_not be_empty
+          expect(subject.errors.messages[:test_attribute][0]).to match(/is expected to be a Time and is not/)
+        end
+      end
+    end
   end
 
   context 'unsupported types' do
