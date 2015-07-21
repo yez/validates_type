@@ -16,7 +16,7 @@ module ActiveModel
       #   return: result of ActiveModel::Validations::EachValidator initialize
       def initialize(options)
         merged_options = {
-          :message => "is expected to be a #{ symbol_class(options[:type]) } and is not."
+          message: "is expected to be a #{ symbol_class(options[:type]) } and is not."
         }.merge(options)
 
         super(merged_options)
@@ -83,15 +83,15 @@ module ActiveModel
       #   return: class constant of supported types or raises UnsupportedType
       def symbol_class(symbol)
         @symbol_class ||= {
-          :array   => Array,
-          :boolean => Boolean,
-          :float   => Float,
-          :hash    => Hash,
-          :integer => Integer,
-          :string  => String,
-          :symbol  => Symbol,
-          :time    => Time,
-          :date    => Date,
+          array: Array,
+          boolean: Boolean,
+          float: Float,
+          hash: Hash,
+          integer: Integer,
+          string: String,
+          symbol: Symbol,
+          time: Time,
+          date: Date,
         }[symbol] || fail(ValidatesType::UnsupportedType,
                           "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
       end
