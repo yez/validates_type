@@ -83,15 +83,16 @@ module ActiveModel
       #   return: class constant of supported types or raises UnsupportedType
       def symbol_class(symbol)
         @symbol_class ||= {
-          :array   => Array,
-          :boolean => Boolean,
-          :float   => Float,
-          :hash    => Hash,
-          :integer => Integer,
-          :string  => String,
-          :symbol  => Symbol,
-          :time    => Time,
-          :date    => Date,
+          :array       => Array,
+          :boolean     => Boolean,
+          :float       => Float,
+          :hash        => Hash,
+          :integer     => Integer,
+          :string      => String,
+          :symbol      => Symbol,
+          :time        => Time,
+          :date        => Date,
+          :big_decimal => BigDecimal,
         }[symbol] || fail(ValidatesType::UnsupportedType,
                           "Unsupported type #{ symbol.to_s.camelize } given for validates_type.")
       end
@@ -119,6 +120,7 @@ module ActiveModel
       #   - :symbol
       #   - :time
       #   - :date
+      #   - :big_decimal
       #
       # class Foo
       #   include ActiveModel::Validations

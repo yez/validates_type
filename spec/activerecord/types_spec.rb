@@ -344,6 +344,33 @@ describe 'ValidatesType' do
         end
       end
     end
+
+    describe 'BigDecimal' do
+      drop_and_create_column_with_type(:string)
+
+      subject { TypeValidationTest.set_accessor_and_long_validator(:big_decimal) }
+
+      context 'field value is a BigDecimal' do
+        let(:value) { BigDecimal.new(1) }
+
+        specify do
+          expect(subject).to be_valid
+        end
+      end
+
+      context 'field value is not a BigDecimal' do
+        let(:value) { 123456 }
+        specify do
+          expect(subject).to_not be_valid
+        end
+
+        specify do
+          subject.validate
+          expect(subject.errors).to_not be_empty
+          expect(subject.errors.messages[:test_attribute][0]).to match(/is expected to be a BigDecimal and is not/)
+        end
+      end
+    end
   end
 
   context 'unsupported types' do
