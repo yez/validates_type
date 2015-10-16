@@ -88,11 +88,14 @@ end
 #### Supported types
 
 - `:array`
+- `:big_decimal`
 - `:boolean`
+- `:date`
 - `:float`
 - `:hash`
 - `:integer`
 - `:string`
 - `:symbol`
 - `:time`
-- `:date`
+
+
