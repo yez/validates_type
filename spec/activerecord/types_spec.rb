@@ -385,4 +385,49 @@ describe 'ValidatesType' do
       end
     end
   end
+
+  context 'custom class' do
+    drop_and_create_column_with_type(:string)
+    class Custom; end
+    subject { TypeValidationTest.set_accessor_and_long_validator(Custom) }
+
+    before do
+      subject.test_attribute = value
+    end
+
+    context 'field value is of type Custom' do
+      let(:value) { Custom.new }
+
+      specify do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'field value is not of type Custom' do
+      let(:value) { -1 }
+
+      specify do
+        expect(subject).to_not be_valid
+      end
+
+      specify do
+        subject.validate
+        expect(subject.errors).to_not be_empty
+        expect(subject.errors.messages[:test_attribute][0]).to match(/is expected to be a Custom and is not/)
+      end
+    end
+
+    context 'passing in a custom message' do
+      subject { TypeValidationTest.set_accessor_and_long_validator(Custom, message: 'is not Custom!') }
+
+      context 'when validation fails' do
+        let(:value) { 1 }
+
+        specify do
+          subject.validate
+          expect(subject.errors.messages[:test_attribute][0]).to match(/is not Custom!/)
+        end
+      end
+    end
+  end
 end

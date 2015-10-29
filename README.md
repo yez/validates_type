@@ -37,6 +37,9 @@ class Foo < ActiveRecord::Base
 
   # validate that attribute :birthday is a Date or blank
   validates_type :birthday, :date, allow_blank: true
+
+  # validate that attribute :fox is of type Custom
+  validates_type :fox, Custom
 end
 ```
 
@@ -98,4 +101,4 @@ end
 - `:symbol`
 - `:time`
 
-
+#### Any class name, possibly something custom defined in your app, is also game.
