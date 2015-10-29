@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    validates_type (1.1.0)
+    validates_type (1.2.0)
       activemodel (>= 3.0.0)
       ruby-boolean (>= 1.0.0)
 
