@@ -16,7 +16,7 @@ module ActiveModel
       #   return: result of ActiveModel::Validations::EachValidator initialize
       def initialize(options)
         merged_options = {
-          :message => "is expected to be a #{ symbol_class(options[:type]) } and is not."
+          :message => "is expected to be a #{ type_class(options[:type]) } and is not."
         }.merge(options)
 
         super(merged_options)
@@ -31,7 +31,7 @@ module ActiveModel
       #   return: nil
       def validate_each(record, attribute, value)
         value_to_test = type_before_coercion(record, attribute, value)
-        expected_type = symbol_class(options[:type])
+        expected_type = type_class(options[:type])
 
         add_errors_or_raise(options, record, attribute) unless value_to_test.is_a?(expected_type)
       end
@@ -71,6 +71,21 @@ module ActiveModel
         end
       end
 
+      # Helper method to get back a class constant from the given type option
+      # If the type option is a class, it will be returned as is.
+      # If it is not a class, the method will try to convert it to a class constant.
+      #
+      # ex:
+      #   type_class(:string) -> String
+      #   type_class(String)  -> String
+      #   type_class(Custom)  -> Custom
+      # @type_class
+      #   param: type <Class, Symbol>
+      #   return: <Class> class constant
+      def type_class(type)
+        @type_class ||= type.is_a?(Class) ? type : symbol_class(type)
+      end
+
       # Helper method to convert a symbol into a class constant
       #
       # ex:
@@ -79,10 +94,10 @@ module ActiveModel
       #  symbol_class(:hash)    -> Hash
       #
       # @symbol_class
-      #   param: symbol <Symbol> - symbol to turn into a classconstant
+      #   param: symbol <Symbol> - symbol to turn into a class constant
       #   return: class constant of supported types or raises UnsupportedType
       def symbol_class(symbol)
-        @symbol_class ||= {
+        {
           :array       => Array,
           :boolean     => Boolean,
           :float       => Float,
@@ -122,20 +137,23 @@ module ActiveModel
       #   - :date
       #   - :big_decimal
       #
+      # Also validates the type of an attribute given a custom type class constant.
+      #
       # class Foo
       #   include ActiveModel::Validations
       #
-      #   attr_accessor :thing, :something
+      #   attr_accessor :thing, :something, :custom_thing
       #
       #   validates_type :thing, :boolean
       #   validates_type :something, :array
+      #   validates_type :custom_thing, Custom
       # end
       #
       # @validates_type
       #   param: attribute_name <Symbol> - name of attribute to validate
-      #   param: attribute_type <Symbol> - type of attribute to validate against
-      #   param: options <Hash>          - other common options to validate methods calls
-      #                                    i.e. message: 'my custom error message'
+      #   param: attribute_type <Symbol, Class> - type of attribute to validate against
+      #   param: options <Hash> - other common options to validate methods calls
+      #                           i.e. message: 'my custom error message'
       #   return: nil
       def validates_type(attribute_name, attribute_type, options = {})
         args = ValidatesType::Arguments.new(attribute_name, attribute_type, options)

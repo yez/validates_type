@@ -292,4 +292,35 @@ describe 'ValidatesType' do
       end
     end
   end
+
+  context 'custom class' do
+    class Custom; end
+    subject { ActiveModel::TypeValidationTestClass.set_accessor_and_long_validator(Custom) }
+
+    before do
+      subject.attribute = value
+    end
+
+    context 'field value is of type Custom' do
+      let(:value) { Custom.new }
+
+      specify do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'field value is not of type Custom' do
+      let(:value) { -1 }
+
+      specify do
+        expect(subject).to_not be_valid
+      end
+
+      specify do
+        subject.validate
+        expect(subject.errors).to_not be_empty
+        expect(subject.errors.messages[:attribute][0]).to match(/is expected to be a Custom and is not/)
+      end
+    end
+  end
 end
