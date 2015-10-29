@@ -1,2 +1,4 @@
 .ruby*
 *.gem
+.bundle
+.idea
