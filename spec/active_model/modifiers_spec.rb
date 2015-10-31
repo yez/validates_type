@@ -1,8 +1,8 @@
 require_relative '../spec_helper'
 
 describe 'ValidatesType' do
-  %i[set_accessor_and_long_validator
-     set_accessor_and_validator].each do |validate_version|
+  [:set_accessor_and_long_validator,
+     :set_accessor_and_validator].each do |validate_version|
     context "#{ validate_version }" do
       context 'custom modifiers' do
         before do

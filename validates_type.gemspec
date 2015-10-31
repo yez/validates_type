@@ -1,6 +1,6 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
-require_relative './version'
+require './version'
 
 Gem::Specification.new do |s|
   s.name          = 'validates_type'
