@@ -135,7 +135,7 @@ describe 'ValidatesType' do
       subject { TypeValidationTest.set_accessor_and_long_validator(:hash) }
 
       context 'field value is a Hash' do
-        let(:value) { { :this => :here } }
+        let(:value) { { this: :here } }
 
         specify do
           expect(subject).to be_valid

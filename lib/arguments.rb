@@ -38,7 +38,7 @@ module ValidatesType
     # @type
     #   return: <Hash>
     def type
-      { :type => @attribute_type }
+      { type: @attribute_type }
     end
   end
 end
