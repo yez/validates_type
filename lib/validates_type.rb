@@ -1,5 +1,8 @@
 require 'ruby-boolean'
 require 'active_model'
+require 'active_support/i18n'
+
+I18n.load_path << File.dirname(__FILE__) + '/../locale/en.yml'
 
 require_relative '../errors/unsupported_type'
 require_relative './arguments'
@@ -16,7 +19,7 @@ module ActiveModel
       #   return: result of ActiveModel::Validations::EachValidator initialize
       def initialize(options)
         merged_options = {
-          message: "is expected to be a #{ type_class(options[:type]) } and is not."
+          message: :type
         }.merge(options)
 
         super(merged_options)
@@ -51,7 +54,7 @@ module ActiveModel
 
         raise error unless error.nil?
 
-        record.errors.add(attribute, options[:message])
+        record.errors.add(attribute, options[:message], type: type_class(options[:type]))
       end
 
       # Helper method to return the base expected error:

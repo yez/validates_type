@@ -1,0 +1,4 @@
+en:
+  errors:
+    messages:
+      type: is expected to be a %{type} and is not
