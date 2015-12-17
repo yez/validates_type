@@ -18,9 +18,7 @@ module ActiveModel
       #                           the type of the attribute to validate against, etc.
       #   return: result of ActiveModel::Validations::EachValidator initialize
       def initialize(options)
-        merged_options = {
-          message: :type
-        }.merge(options)
+        merged_options = { message: :type }.merge(options)
 
         super(merged_options)
       end
