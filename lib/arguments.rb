@@ -18,10 +18,12 @@ module ValidatesType
     # @to_validation_attributes
     # return: <Array> - cardinality of 2
     def to_validation_attributes
-      [@attribute_name, merged_options]
+      [attribute_name, merged_options]
     end
 
     private
+
+    attr_reader :attribute_name, :attribute_type, :options
 
     # helper method to compact all the options together along
     #   with the type for validation
@@ -29,7 +31,7 @@ module ValidatesType
     # @merged_options
     #   return: <Hash>
     def merged_options
-      type.merge(@options)
+      type.merge(options)
     end
 
     # helper method to impose the type for validation into an option
@@ -38,7 +40,7 @@ module ValidatesType
     # @type
     #   return: <Hash>
     def type
-      { type: @attribute_type }
+      { type: attribute_type }
     end
   end
 end
