@@ -102,3 +102,7 @@ end
 - `:time`
 
 #### Any class name, possibly something custom defined in your app, is also game.
+
+#### Contributing
+
+Please feel free to submit pull requests to address issues that you may find with this software. One commit per pull request is preferred please and thank you.
