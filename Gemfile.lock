@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    validates_type (2.0.3)
+    validates_type (2.1.0)
       activemodel (>= 3.0.0)
-      ruby-boolean (>= 1.0.0)
+      ruby-boolean (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
