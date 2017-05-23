@@ -121,7 +121,8 @@ module ActiveModel
       #   return: the value of the attribute before active record's coercion
       #           or the current value
       def type_before_coercion(record, attribute, value)
-        record.try(:"#{ attribute }_before_type_cast") || value
+        attribute_before_type_cast = "#{attribute}_before_type_cast"
+        record.respond_to?(attribute_before_type_cast) ? record.public_send(attribute_before_type_cast) : value
       end
     end
 
