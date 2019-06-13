@@ -1,6 +1,7 @@
 ## validates_type
 
 [![Build Status](https://travis-ci.org/yez/validates_type.svg?branch=master)](https://travis-ci.org/yez/validates_type)
+[![Open Source Helpers](https://www.codetriage.com/yez/validates_type/badges/users.svg)](https://www.codetriage.com/yez/validates_type)
 
 ### Rails type validation
 
