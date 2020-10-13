@@ -1,6 +1,6 @@
 module ValidatesType
-  MAJOR = 2
-  MINOR = 1
+  MAJOR = 3
+  MINOR = 0
   TINY = 0
 
   VERSION = [MAJOR, MINOR, TINY].join('.').freeze

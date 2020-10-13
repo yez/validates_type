@@ -19,14 +19,12 @@ end
 class TypeValidationTest < ActiveRecord::Base
   def self.set_accessor_and_long_validator(type, options = {})
     self.new.tap do |test_class|
-      test_class._validators = {}
       test_class.class_eval { validates_type :test_attribute, type, options }
     end
   end
 
   def self.set_accessor_and_validator(type, options = {})
     self.new.tap do |test_class|
-      test_class._validators = {}
       test_class.class_eval { validates :test_attribute, type: { type: type }.merge(options) }
     end
   end

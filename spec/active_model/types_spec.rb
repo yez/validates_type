@@ -245,7 +245,7 @@ describe 'ValidatesType' do
       subject { ActiveModel::TypeValidationTestClass.set_accessor_and_long_validator(:big_decimal) }
 
       context 'field value is a BigDecimal' do
-        let(:value) { BigDecimal.new(1) }
+        let(:value) { BigDecimal(1) }
 
         specify do
           expect(subject).to be_valid
