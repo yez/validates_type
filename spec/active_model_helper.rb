@@ -17,7 +17,6 @@ module ActiveModel
     #   return: TypeValidationTestClass instance with set validator
     def self.set_accessor_and_long_validator(type, options = {})
       self.new.tap do |test_class|
-        test_class._validators = {}
         test_class.class_eval { attr_accessor :attribute }
         test_class.class_eval { validates_type :attribute, type, options }
       end
@@ -38,7 +37,6 @@ module ActiveModel
     #   return: TypeValidationTestClass instance with set validator
     def self.set_accessor_and_validator(type, options = {})
       self.new.tap do |test_class|
-        test_class._validators = {}
         test_class.class_eval { attr_accessor :attribute }
         test_class.class_eval { validates :attribute, type: { type: type }.merge(options) }
       end
