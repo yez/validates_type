@@ -52,7 +52,8 @@ module ActiveModel
 
         raise error unless error.nil?
 
-        record.errors.add(attribute, :type, { type: type_class(options[:type]) }.merge(message: options[:message]))
+        options = { type: type_class(options[:type]) }.merge(message: options[:message])
+        record.errors.add(attribute, :type, **options)
       end
 
       # Helper method to return the base expected error:

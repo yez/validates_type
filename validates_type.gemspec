@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = s.files.grep(/^spec\//)
 
-  s.required_ruby_version = '>= 2.7.0'
+  s.required_ruby_version = '>= 3.1.0'
 
   s.add_dependency 'ruby-boolean', '~> 1.0'
   s.add_dependency 'activemodel', '~> 7.0'
